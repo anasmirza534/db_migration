@@ -2,3 +2,5 @@ config.py
 __pycache__/
 *.py[cod]
 *$py.class
+mysql_backup/*
+mongo_backup/*
