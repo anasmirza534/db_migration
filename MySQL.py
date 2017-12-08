@@ -68,8 +68,8 @@ class MySQL():
 
 		# filter
 		all_dbs_path = glob.glob("{}/*.sql".format(backup_dir))
-		all_dbs = [ os.path.basename(db).strip(".sql") for db in all_dbs_path ]
-	    # print(all_dbs)
+		all_dbs = [ os.path.basename(db).replace(".sql", "") for db in all_dbs_path ]
+		# print(all_dbs)
 		import_db = []
 		for db in all_dbs:
 			user_input = input("Do you want to import {}: ".format(db))
@@ -89,6 +89,13 @@ class MySQL():
 		for db in import_db:
 			file = backup_dir + "/" + db + ".sql"
 			print("importing {} from {}".format(db, file))
+
+			# create db
+			cmd = "mysql -u {} --password='{}' -e 'CREATE DATABASE {}'".format(username, password, db)
+			# print(cmd)
+			os.system(cmd)
+
+			# import
 			cmd = "mysql -u {} --password='{}' {} < {}".format(username, password, db, file)
 			# print(cmd)
 			os.system(cmd)
